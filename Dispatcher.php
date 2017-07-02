@@ -5,8 +5,8 @@
  */
 class Dispatcher
 {
-    const DEFAULT_CONTROLLER_NAME = 'index';
-    const DEFAULT_ACTION_NAME = 'index';
+    const DEFAULT_CONTROLLER_NAME = 'default';
+    const DEFAULT_ACTION_NAME = 'default';
     const CONTROLLER_SUFFIX = 'Controller';
     const ACTION_SUFFIX = 'Action';
     const CONTROLLER_DIR_NAME = '/controller/';
@@ -78,8 +78,8 @@ class Dispatcher
     {
         $action = (count($params) > 2) ? $params[2] : self::DEFAULT_ACTION_NAME;
         $actionMethod = $action . self::ACTION_SUFFIX;
+        // 存在しないアクションの場合デフォルトを指定
         if (!method_exists($controllerInstance, $actionMethod)) {
-            // 存在しないアクションの場合デフォルトを指定
             $actionMethod = self::DEFAULT_ACTION_NAME . self::ACTION_SUFFIX;
         }
         return $actionMethod;
