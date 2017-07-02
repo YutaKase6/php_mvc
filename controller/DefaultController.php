@@ -1,8 +1,8 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/controller/Controller.php';
+require_once __DIR__ . '/AbstractController.php';
 
-class DefaultController implements Controller
+class DefaultController extends AbstractController
 {
     public function defaultAction()
     {

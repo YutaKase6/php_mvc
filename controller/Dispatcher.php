@@ -9,7 +9,7 @@ class Dispatcher
     const DEFAULT_ACTION_NAME = 'default';
     const CONTROLLER_SUFFIX = 'Controller';
     const ACTION_SUFFIX = 'Action';
-    const CONTROLLER_DIR_NAME = '/controller/';
+    const CONTROLLER_DIR_NAME = '/../controller/';
     const PHP_EXTENSION = '.php';
 
     /**
