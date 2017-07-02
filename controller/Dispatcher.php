@@ -9,8 +9,9 @@ class Dispatcher
     const DEFAULT_ACTION_NAME = 'default';
     const CONTROLLER_SUFFIX = 'Controller';
     const ACTION_SUFFIX = 'Action';
-    const CONTROLLER_DIR_NAME = '/../controller/';
+    const CONTROLLER_DIR = '/../controller/';
     const PHP_EXTENSION = '.php';
+    const NOT_FOUND_HEADER = "HTTP/1.0 404 Not Found";
 
     /**
      * @var string システムのルートディレクトリのパス。クラスのロードに用いる。
@@ -58,11 +59,10 @@ class Dispatcher
         $controller = (count($params) > 1) ? $params[1] : self::DEFAULT_CONTROLLER_NAME;
         // アッパーキャメルに変換
         $className = ucfirst(strtolower($controller)) . self::CONTROLLER_SUFFIX;
-        $fileName = $this->sysRoot . self::CONTROLLER_DIR_NAME . $className . self::PHP_EXTENSION;
-        // 存在しないコントローラクラスの場合デフォルトを指定
+        $fileName = $this->sysRoot . self::CONTROLLER_DIR . $className . self::PHP_EXTENSION;
         if (!file_exists($fileName)) {
-            $className = ucfirst(strtolower(self::DEFAULT_CONTROLLER_NAME)) . self::CONTROLLER_SUFFIX;
-            $fileName = $this->sysRoot . self::CONTROLLER_DIR_NAME . $className . self::PHP_EXTENSION;
+            header(self::NOT_FOUND_HEADER);
+            exit;
         }
         require_once $fileName;
         return new $className;
@@ -78,9 +78,9 @@ class Dispatcher
     {
         $action = (count($params) > 2) ? $params[2] : self::DEFAULT_ACTION_NAME;
         $actionMethod = $action . self::ACTION_SUFFIX;
-        // 存在しないアクションの場合デフォルトを指定
         if (!method_exists($controllerInstance, $actionMethod)) {
-            $actionMethod = self::DEFAULT_ACTION_NAME . self::ACTION_SUFFIX;
+            header(self::NOT_FOUND_HEADER);
+            exit;
         }
         return $actionMethod;
     }
